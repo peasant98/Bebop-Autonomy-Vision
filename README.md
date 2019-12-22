@@ -1,7 +1,56 @@
 # Bebop-Autonomy-Vision
+
 An autonomous completely vision-based Bebop drone. From Intro to Robotics project.
 
-Autonomous CNN-Based Navigation of a Quadrotor with SSD300 Object Detection and Semi-Direct Visual Odometry
+This project consists of autonomous CNN-Based Navigation of a Bebop Quadrotor with SSD300 Object Detection and Semi-Direct Visual Odometry. The whole vision suites only requires the Bebop's camera to run, no other sensors on the drone.
+
+## Contributors
+
+- [Ayush Khanal](https://github.com/jptboy/)
+- [Rami Mouro](https://github.com/ramalamadingdong/)
+- [Brian Nguyen](https://github.com/BrianNguyen214)
+- [Matthew Strong](https://github.com/peasant98)
+
+### Package Description
+
+- `bebop_autonomy` - The ROS driver for the Parrot Bebop drone. Is the base of this whole project.
+
+- `catkin_simple` - Catkin Simple ROS package that is used with Dronet.
+
+- `dronet_control` - Dronet control package for sending commands to the `cmd_vel` for the Bebop drone.
+
+- `dronet_perception` - Runs the actual Dronet model (best if done on GPU), which outputs a steering angle and collision probability.
+
+- `rpg_svo` - The semi-direct visual odometry package in ROS.
+
+- `rpg_vikit` - Some vision tools for this project.
+
+### Installation
+
+Each package with the `bebop_ws` ROS workspace requires some different work to be done to get it fully working with the whole suite. They are listed below (firstly, make sure that you have ROS installed).
+
+- `bebop_autonomy` - in-depth docs [here](https://bebop-autonomy.readthedocs.io/en/latest/)
+  - Run `sudo apt-get install ros-<ros-distro>-parrot-arsdk`
+
+- `catkin_simple` - simply required for being able to build Dronet, which uses `catkin_simple`
+
+- `dronet_control` - ROS package that takes the CNN predictions from Dronet to send the correct commands to the Bebop drone.
+
+- `dronet_perception` - ROS package that runs the actual Dronet model.
+  - Requires `tensorflow`, `keras`, `rospy`, opencv, Python's gflags, and numpy/sklearn.
+  - More information about the Dronet code and setup can be found [here](https://github.com/uzh-rpg/rpg_public_dronet).
+
+- `rpg_svo` - There are some extra steps that you will need to follow; these are detailed well at `rpg_svo`'s [wiki](https://github.com/uzh-rpg/rpg_svo/wiki/Installation:-ROS). The `g2o` package is optional. Additionally, the step to clone `rpg_svo` is not needed as it already exists in this repo.
+
+- `rgp_vikit` - Nothing here.
+
+### Misc Installation
+
+We also have two Python files in this repo that are used for easier ROS control and for the object detection model, which includes `csci_dronet.py` and `robotics.py`.
+
+- `csci_dronet.py` - This Python file 
+
+- `robotics.py` - This Python file
 
 We have attached the two separate ROS workspaces - `svo_ws`, `bebop_ws`, and the supplementary python, and this file.
 
@@ -9,15 +58,7 @@ Within `svo_ws`, we used the two open sourced packages `rpg_svo` and `rpg_vikit`
 Within `bebop_ws`, we used `bebop_autonomy`, `catkin_simple ` (the old Dronet worked on old versions of ROS), `dronet_control`, and `dronet_perception`
 We explain how to used this open sourced work and how to integrate it with our work together.
 
-Requires:
 
-`bebop_autonomy`
-ETH Zurich's `dronet` ros packages from [here](https://github.com/uzh-rpg/rpg_public_dronet/)
-ETH Zurich's `svo` ros packages from [here](https://github.com/uzh-rpg/rpg_svo)
-`torch2trt`
-`tensorflow`
-`keras`
-`pytorch`
 
 ## Steps
 

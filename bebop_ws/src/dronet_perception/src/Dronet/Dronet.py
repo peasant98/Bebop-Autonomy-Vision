@@ -16,12 +16,11 @@ class Dronet(object):
                  weights_path, target_size=(200, 200),
                  crop_size=(150, 150),
                  imgs_rootpath="../models"):
-        # dynamic growth in memory for bebop drone
 
+        # fix for gpu memory that may be encountered
         config = tf.ConfigProto()
         config.gpu_options.allow_growth = True
         sess = tf.Session(config=config)
-        # needed here
 
         self.pub = rospy.Publisher("cnn_predictions", CNN_out, queue_size=5)
         self.feedthrough_sub = rospy.Subscriber("state_change", Bool, self.callback_feedthrough, queue_size=1)
@@ -60,7 +59,6 @@ class Dronet(object):
                     data = rospy.wait_for_message("camera", Image, timeout=10)
                 except:
                     pass
-            # currently a hack to show the message
             self.use_network_out = True
             # delete in performance
             if self.use_network_out:
