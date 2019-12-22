@@ -1,5 +1,4 @@
-# Bebop-Autonomy-Vision
-An autonomous completely vision-based Bebop drone. From Intro to Robotics project.
+# CSCI 3002: Intro to Robotics Final Project
 
 Autonomous CNN-Based Navigation of a Quadrotor with SSD300 Object Detection and Semi-Direct Visual Odometry
 
