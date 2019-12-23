@@ -147,7 +147,7 @@ Additionally, we can run `python csci_dronet.py --option=takeoff`, `python csci_
 
 Dronet in action. It follows the road, and thankfully stops when one of us gets too close.  The Bebop doesn't listen to us, but Dronet's collision probability from its forward-facing camera was high enough so that the drone stopped, and disaster was averted.
 
-<img src="https://udana-documentation.s3-us-west-1.amazonaws.com/pictures/dronet.gif?raw=true" width="500px">
+<img src="dronet.gif?raw=true" width="500px">
 
 The convolutional neural network is influenced by edges (detailed more in the paper) and is clearly moving parallel to the edge of the road here.
 
