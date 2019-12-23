@@ -2,7 +2,7 @@
 
 An autonomous completely vision-based Bebop drone. From Intro to Robotics project.
 
-This project consists of autonomous CNN-Based Navigation of a Bebop Quadrotor with SSD300 Object Detection and Semi-Direct Visual Odometry. The whole vision suites only requires the Bebop's camera to run, no other sensors on the drone.
+This project consists of ROS-based autonomous CNN-Based Navigation (via Dronet) of a Bebop Quadrotor with SSD300 Object Detection and Semi-Direct Visual Odometry. The whole vision suites only requires the Bebop's camera to run, no other sensors on the drone. Additionally, the object detection uses the python `torch2trt` plugin, which is a PyTorch to TensorRT convert that runs optimized models faster than ever.
 
 ## Contributors
 
@@ -11,21 +11,29 @@ This project consists of autonomous CNN-Based Navigation of a Bebop Quadrotor wi
 - [Brian Nguyen](https://github.com/BrianNguyen214)
 - [Matthew Strong](https://github.com/peasant98)
 
-### Package Description
+## Relevant Papers
 
-- `bebop_autonomy` - The ROS driver for the Parrot Bebop drone. Is the base of this whole project.
+- [Dronet Paper](http://rpg.ifi.uzh.ch/docs/RAL18_Loquercio.pdf)
 
-- `catkin_simple` - Catkin Simple ROS package that is used with Dronet.
+- [SVO Paper](https://www.ifi.uzh.ch/dam/jcr:e9b12a61-5dc8-48d2-a5f6-bd8ab49d1986/ICRA14_Forster.pdf)
 
-- `dronet_control` - Dronet control package for sending commands to the `cmd_vel` for the Bebop drone.
+- [SSD Object Detection Paper](https://arxiv.org/pdf/1512.02325.pdf)
+
+## Package Description
+
+- `bebop_autonomy` - The ROS driver for the Parrot Bebop drone. Is the base of this whole project. A link can be found [here](https://github.com/AutonomyLab/bebop_autonomy)
+
+- `catkin_simple` - Catkin Simple ROS package that is used with Dronet. Additionally, a link to the Github repo can be found [here](https://github.com/catkin/catkin_simple).
+
+- `dronet_control` - ETH Zurich's Dronet control package for sending commands to the `cmd_vel` for the Bebop drone. A link to all of Dronet can be found [here](https://github.com/uzh-rpg/rpg_public_dronet)
 
 - `dronet_perception` - Runs the actual Dronet model (best if done on GPU), which outputs a steering angle and collision probability.
 
-- `rpg_svo` - The semi-direct visual odometry package in ROS.
+- `rpg_svo` - The semi-direct visual odometry package in ROS. Developed at ETH Zurich; the repository can be found [here](https://github.com/uzh-rpg/rpg_svo)
 
-- `rpg_vikit` - Some vision tools for this project.
+- `rpg_vikit` - Some vision tools for this project. The link to the repo is [here](https://github.com/uzh-rpg/rpg_vikit).
 
-### Installation
+## Installation
 
 Each package with the `bebop_ws` ROS workspace requires some different work to be done to get it fully working with the whole suite. They are listed below (firstly, make sure that you have ROS installed).
 
@@ -44,61 +52,77 @@ Each package with the `bebop_ws` ROS workspace requires some different work to b
 
 - `rgp_vikit` - Nothing here.
 
-### Misc Installation
+## Misc Installation
 
 We also have two Python files in this repo that are used for easier ROS control and for the object detection model, which includes `csci_dronet.py` and `robotics.py`.
 
-- `csci_dronet.py` - This Python file 
+- `csci_dronet.py` - This Python file serves as an easy way to send publish (in ROS) to one of three topics. Requires `argparse`, `std_msgs`, and `rospy`, if you haven't installed them already. Usage will be detailed in a later section.
 
-- `robotics.py` - This Python file
+- `robotics.py` - This Python file runs the SSD-300 object detection model in real time. Its usage will also be detailed in a later section. This requires:
+  - `torch` - link [here](https://pytorch.org/get-started/locally/)
+  - `torchvision`
+  - `ros_numpy`- link [here](https://github.com/eric-wieser/ros_numpy)
+  - `torch2trt` - link, as well as good installation steps, [here](https://github.com/NVIDIA-AI-IOT/torch2trt)
 
-We have attached the two separate ROS workspaces - `svo_ws`, `bebop_ws`, and the supplementary python, and this file.
+## Building the Code
 
-Within `svo_ws`, we used the two open sourced packages `rpg_svo` and `rpg_vikit`.
-Within `bebop_ws`, we used `bebop_autonomy`, `catkin_simple ` (the old Dronet worked on old versions of ROS), `dronet_control`, and `dronet_perception`
-We explain how to used this open sourced work and how to integrate it with our work together.
-
-
-
-## Steps
-
-We used two ROS workspaces for getting everything up and running - `svo_ws/` and `bebop_ws`.
-In `svo_ws/`, we have the ROS SVO packages. In the `bebop_ws` package, we have `bebop_autonomy`, and the
-`dronet` packages there. This included `dronet_perception` and `dronet_control` for `cpp` control.
-
+- `cd bebop_ws`
+- `catkin_make`
+- If you have the above packages/dependencies installed, then `catkin_make` should work fine, however, it is possible that there is some missing ROS package (if there's an error). In that case, a common way to fix this issue is to run `sudo apt-get install ros-<your-distro>-<package-name>`. Then, retry the previous command.
 
 ## Steps to Running the Code
-`cd bebop_ws/`
-`source devel/setup.bash`
-`cd src/dronet_perception/launch`
-`roslaunch full_perception_launch.launch`
 
-In another terminal:
+We explain how to use this open sourced work and how to integrate it with our work together.
 
-`cd bebop_ws/`
-`source devel/setup.bash`
-`cd src/dronet_control/launch`
-`roslaunch deep_navigation.launch`
+First, make sure that you have a working Bebop2, and connect to its Wi-Fi network. Also, make sure that you successfully completed the build steps listed above.
 
-### Object Detection:
-run `python3.5 robotics.py` after.
+- `cd bebop_ws`
 
-Requires Tensorflow, Keras, Torch2TRT (torch to TensorRT), rospy
+- `source devel/setup.bash`
 
-should display something like one of the images.
+- `cd src/dronet_perception/launch`
+
+- `roslaunch full_perception_launch.launch`
+
+In another terminal, or using `tmux` (recommended):
+
+- `cd bebop_ws/`
+
+- `source devel/setup.bash`
+
+- `cd src/dronet_control/launch`
+
+- `roslaunch deep_navigation.launch`
+
+### Object Detection
+
+- Using `tmux` or another terminal:
+
+- `python robotics.py` `python3.5 robotics.py`
+
+- This should open a window that shows the detections from the Bebop drone in real time. Having a GPU helps here.
+
+Here's an example:
+
+![alt text](https://udana-documentation.s3-us-west-1.amazonaws.com/pictures/Screenshot+from+2019-12-18+13-49-48.png "SSD300")
 
 ### SVO
-`cd svo_ws`
+
+- Again, using `tmux` or another terminal:
+
+`cd bebop_ws`
 `source devel/setup.bash`
 `roslaunch svo_ros live.launch`
 
-visualization:
+For visualization:
 
-`rosrun rviz rviz -d <PATH-TO-SVO-WS>/src/g_svo/svo_ros/rviz_config.rviz`
+`rosrun rviz rviz -d bebop_ws/src/rpg_svo/svo_ros/rviz_config.rviz`
 
-## Real Time Work
+![alt text](https://udana-documentation.s3-us-west-1.amazonaws.com/pictures/Screenshot+from+2019-12-18+12-20-06.png "SVO")
 
-Now we can begin the real fun work.
+## Autonomous Navigation with Bebop
+
+Now we can begin the real fun work. Below is a list of commands you can use once the above programs are running.
 
 `rostopic pub --once /bebop/takeoff std_msgs/Empty` - takes off the drone
 
@@ -110,4 +134,11 @@ Now we can begin the real fun work.
 
 Additionally, we can run `python csci_dronet.py --option=takeoff`, `python csci_dronet.py --option=land`, `python csci_dronet.py --option=dronet_start`, or `python csci_dronet.py --option=dronet_end` to takeoff, land, start, and stop dronet, respectively.
 
-We also have attached some of the dronet code from ETH Zurich RPG code that we were able to get integrated with everything.
+## Pictures
+
+Dronet in action. The convolutional neural network is influenced by edges (detailed more in the paper) and is clearly moving parallel to the edge of the road here.
+
+![alt text](https://udana-documentation.s3-us-west-1.amazonaws.com/pictures/Screenshot+from+2019-12-22+23-04-46.png "Dronet")
+
+One of us getting in the way of the Bebop's trajectory and commanding it to stop. The Bebop doesn't listen to us, but Dronet's collision probability from its forward-facing camera was high enough so that the drone stopped, and disaster was averted.
+![alt text](https://udana-documentation.s3-us-west-1.amazonaws.com/pictures/Screenshot+from+2019-12-22+23-05-13.png "Dronet_stop")
