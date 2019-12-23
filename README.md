@@ -143,11 +143,12 @@ Now we can begin the real fun work. Below is a list of commands you can use once
 
 Additionally, we can run `python csci_dronet.py --option=takeoff`, `python csci_dronet.py --option=land`, `python csci_dronet.py --option=dronet_start`, or `python csci_dronet.py --option=dronet_end` to takeoff, land, start, and stop dronet, respectively.
 
-## Pictures
+## Real Life Vid/Pic
 
-Dronet in action. The convolutional neural network is influenced by edges (detailed more in the paper) and is clearly moving parallel to the edge of the road here.
+Dronet in action. It follows the road, and thankfully stops when one of us gets too close.  The Bebop doesn't listen to us, but Dronet's collision probability from its forward-facing camera was high enough so that the drone stopped, and disaster was averted.
+
+![Alt Text](https://udana-documentation.s3-us-west-1.amazonaws.com/pictures/dronet.gif)
+
+The convolutional neural network is influenced by edges (detailed more in the paper) and is clearly moving parallel to the edge of the road here.
 
 ![alt text](https://udana-documentation.s3-us-west-1.amazonaws.com/pictures/Screenshot+from+2019-12-22+23-04-46.png "Dronet")
-
-One of us getting in the way of the Bebop's trajectory and commanding it to stop. The Bebop doesn't listen to us, but Dronet's collision probability from its forward-facing camera was high enough so that the drone stopped, and disaster was averted.
-![alt text](https://udana-documentation.s3-us-west-1.amazonaws.com/pictures/Screenshot+from+2019-12-22+23-05-13.png "Dronet_stop")
