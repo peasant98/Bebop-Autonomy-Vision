@@ -2,7 +2,7 @@
 
 An autonomous completely vision-based Bebop drone. From Intro to Robotics project.
 
-This project consists of ROS-based autonomous CNN-Based Navigation (via Dronet) of a Bebop Quadrotor with SSD300 Object Detection and Semi-Direct Visual Odometry. The whole vision suites only requires the Bebop's camera to run, no other sensors on the drone. Additionally, the object detection uses the python `torch2trt` plugin, which is a PyTorch to TensorRT convert that runs optimized models faster than ever.
+This project consists of ROS-based autonomous CNN-Based Navigation (via Dronet) of a Bebop Quadrotor with SSD300 Object Detection and Semi-Direct Visual Odometry. The whole vision suites only requires the Bebop's camera to run, no other sensors on the drone. Additionally, the object detection uses the python `torch2trt` plugin, which is a PyTorch to TensorRT converter that runs optimized models faster than ever.
 
 ## Contributors
 
@@ -69,6 +69,15 @@ We also have two Python files in this repo that are used for easier ROS control 
 - `cd bebop_ws`
 - `catkin_make`
 - If you have the above packages/dependencies installed, then `catkin_make` should work fine, however, it is possible that there is some missing ROS package (if there's an error). In that case, a common way to fix this issue is to run `sudo apt-get install ros-<your-distro>-<package-name>`. Then, retry the previous command.
+
+Also do:
+
+- In `bebop_ws/devel/include`: `sudo ln -s /opt/ros/<ros-distro>/include/parrot_arsdk parrot_arsdk`
+
+- In `bebop_ws/devel/library`: `sudo ln -s /opt/ros/<ros-distro>/lib/parrot_arsdk parrot_arsdk`
+
+- In your `~/.bashrc` file, add the following to the end:
+`export LD_LIBRARY_PATH=<path-to-bebop-ws>/devel/lib/parrot_arsdk:$LD_LIBRARY_PATH`
 
 ## Steps to Running the Code
 
