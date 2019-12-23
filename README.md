@@ -2,7 +2,7 @@
 
 An autonomous completely vision-based Bebop drone. From Intro to Robotics (CSCI-3302) project.
 
-This project consists of ROS-based autonomous CNN-Based Navigation (via Dronet) of a Bebop Quadrotor with SSD300 Object Detection and Semi-Direct Visual Odometry. The whole vision suites only requires the Bebop's camera to run, no other sensors on the drone. Additionally, the object detection uses the python `torch2trt` plugin, which is a PyTorch to TensorRT converter that runs optimized models faster than ever.
+This project consists of ROS-based autonomous CNN-Based Navigation (via Dronet) of a Bebop Quadrotor with SSD300 Object Detection and Semi-Direct Visual Odometry. **New**: We now have semantic segmentation with DeepLabv3 working as well! The whole vision suites only requires the Bebop's camera to run, no other sensors on the drone. Additionally, the object detection and semantic segmentation use the python `torch2trt` plugin, which is a PyTorch to TensorRT converter that runs optimized models faster than ever.
 
 ## Contributors
 
@@ -18,6 +18,8 @@ This project consists of ROS-based autonomous CNN-Based Navigation (via Dronet) 
 - [SVO Paper](https://www.ifi.uzh.ch/dam/jcr:e9b12a61-5dc8-48d2-a5f6-bd8ab49d1986/ICRA14_Forster.pdf)
 
 - [SSD Object Detection Paper](https://arxiv.org/pdf/1512.02325.pdf)
+
+- [Semantic Segmentation Paper](https://arxiv.org/pdf/1706.05587.pdf)
 
 ## Package Description
 
@@ -58,11 +60,13 @@ We also have two Python files in this repo that are used for easier ROS control 
 
 - `csci_dronet.py` - This Python file serves as an easy way to send publish (in ROS) to one of three topics. Requires `argparse`, `std_msgs`, and `rospy`, if you haven't installed them already. Usage will be detailed in a later section.
 
-- `robotics.py` - This Python file runs the SSD-300 object detection model in real time. Its usage will also be detailed in a later section. This requires:
+- `bebop_object_detection.py` - This Python file runs the SSD-300 object detection model in real time. Its usage will also be detailed in a later section. This requires:
   - `torch` - link [here](https://pytorch.org/get-started/locally/)
   - `torchvision`
   - `ros_numpy`- link [here](https://github.com/eric-wieser/ros_numpy)
   - `torch2trt` - link, as well as good installation steps, [here](https://github.com/NVIDIA-AI-IOT/torch2trt)
+
+- `bebop_semantic_segmentation.py` - This Python runs the DeepLabv3 semantic segmentation model in real time (not as fast as the object detection model). Usage will be detailed later. It requires the same packages as `bebop_object_detection.py`.
 
 ## Building the Code
 
@@ -107,13 +111,25 @@ In another terminal, or using `tmux` (recommended):
 
 - Using `tmux` or another terminal:
 
-- `python robotics.py` `python3.5 robotics.py`
+- `python bebop_object_detection.py` or `python3.5 bebop_object_detection.py`
 
 - This should open a window that shows the detections from the Bebop drone in real time. Having a GPU helps here.
 
 Here's an example:
 
 ![alt text](https://udana-documentation.s3-us-west-1.amazonaws.com/pictures/Screenshot+from+2019-12-18+13-49-48.png "SSD300")
+
+### Semantic Segmentation
+
+- Using `tmux` or another terminal:
+
+- `python bebop_semantic_segmentation.py` or `python3.5 bebop_semantic_segmentation.py`
+
+- This also should open a window that shows segmentation results real-time.
+
+Here's an example:
+
+![alt text](https://udana-documentation.s3-us-west-1.amazonaws.com/pictures/Screenshot+from+2019-12-23+13-46-24.png "Deeplabv3")
 
 ### SVO
 
