@@ -89,23 +89,32 @@ We explain how to use this open sourced work and how to integrate it with our wo
 
 First, make sure that you have a working Bebop2, and connect to its Wi-Fi network. Also, make sure that you successfully completed the build steps listed above.
 
-- `cd bebop_ws`
+```sh
 
-- `source devel/setup.bash`
+cd bebop_ws
 
-- `cd src/dronet_perception/launch`
+source devel/setup.bash
 
-- `roslaunch full_perception_launch.launch`
+cd src/dronet_perception/launch
+
+roslaunch full_perception_launch.launch
+
+```
+
 
 In another terminal, or using `tmux` (recommended):
 
-- `cd bebop_ws/`
+```sh
 
-- `source devel/setup.bash`
+cd bebop_ws/
 
-- `cd src/dronet_control/launch`
+source devel/setup.bash
 
-- `roslaunch deep_navigation.launch`
+cd src/dronet_control/launch
+
+roslaunch deep_navigation.launch
+
+```
 
 ### Object Detection
 
@@ -135,9 +144,11 @@ Here's an example:
 
 - Again, using `tmux` or another terminal:
 
-`cd bebop_ws`
-`source devel/setup.bash`
-`roslaunch svo_ros live.launch`
+```sh 
+cd bebop_ws
+source devel/setup.bash
+roslaunch svo_ros live.launch
+```
 
 For visualization:
 
