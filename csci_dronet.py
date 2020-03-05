@@ -25,7 +25,6 @@ if __name__ == '__main__':
         b = Bool()
         b.data = True
         control_pub.publish(b)
-        pass
     elif selection == 'dronet_end':
         # turn off dronet control
         b = Bool()
