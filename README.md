@@ -1,6 +1,6 @@
 # Bebop-Autonomy-Vision
 
-An autonomous completely vision-based Bebop drone. From Intro to Robotics (CSCI-3302) project.
+An autonomous completely vision-based Bebop drone. Our Intro to Robotics (CSCI-3302)  final project.
 
 This project consists of ROS-based autonomous CNN-Based Navigation (via Dronet) of a Bebop Quadrotor with SSD300 Object Detection and Semi-Direct Visual Odometry. **New**: We now have semantic segmentation with DeepLabv3 working as well! The whole vision suites only requires the Bebop's camera to run, no other sensors on the drone. Additionally, the object detection and semantic segmentation use the python `torch2trt` plugin, which is a PyTorch to TensorRT converter that runs optimized models faster than ever.
 
