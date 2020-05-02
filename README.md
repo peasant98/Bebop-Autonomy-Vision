@@ -76,12 +76,19 @@ We also have two Python files in this repo that are used for easier ROS control 
 
 Also do:
 
-- In `bebop_ws/devel/include`: `sudo ln -s /opt/ros/<ros-distro>/include/parrot_arsdk parrot_arsdk`
+- In `bebop_ws/devel/include`: 
+```sh
+sudo ln -s /opt/ros/<ros-distro>/include/parrot_arsdk parrot_arsdk
+```
 
-- In `bebop_ws/devel/library`: `sudo ln -s /opt/ros/<ros-distro>/lib/parrot_arsdk parrot_arsdk`
+- In `bebop_ws/devel/library`: 
+```sh
+sudo ln -s /opt/ros/<ros-distro>/lib/parrot_arsdk parrot_arsdk
+```
 
-- In your `~/.bashrc` file, add the following to the end:
-`export LD_LIBRARY_PATH=<path-to-bebop-ws>/devel/lib/parrot_arsdk:$LD_LIBRARY_PATH`
+```sh 
+echo "export LD_LIBRARY_PATH=<path-to-bebop-ws>/devel/lib/parrot_arsdk:$LD_LIBRARY_PATH" >> ~/.bashrc
+```
 
 ## Steps to Running the Code
 
