@@ -70,9 +70,12 @@ We also have two Python files in this repo that are used for easier ROS control 
 
 ## Building the Code
 
-- `cd bebop_ws`
-- `catkin_make`
-- If you have the above packages/dependencies installed, then `catkin_make` should work fine, however, it is possible that there is some missing ROS package (if there's an error). In that case, a common way to fix this issue is to run `sudo apt-get install ros-<your-distro>-<package-name>`. Then, retry the previous command.
+```sh
+cd bebop_ws
+catkin build
+
+```
+- If you have the above packages/dependencies installed, then `catkin build` should work fine, however, it is possible that there is some missing ROS package (if there's an error). In that case, a common way to fix this issue is to run `sudo apt-get install ros-<your-distro>-<package-name>`. Then, retry the previous command.
 
 Also do:
 
