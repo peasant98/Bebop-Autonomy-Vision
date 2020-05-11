@@ -6,6 +6,13 @@ import ros_numpy
 import torch
 import torchvision
 import torch2trt
+# was opencv issue, need to do this to not get import cv2 error
+import sys
+sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages')
+
+
+import cv2
+import numpy as np
 
 # deeplabv3 semantic segmentation model
 model = torchvision.models.segmentation.deeplabv3_resnet101(pretrained=True)
@@ -30,13 +37,7 @@ data = torch.ones((1, 3, 224, 224)).cuda().half()
 # convert to tensorRT
 model_trt = torch2trt.torch2trt(model_w, [data], fp16_mode=True)
 
-# was opencv issue, need to do this to not get import cv2 error
-import sys
-sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages')
 
-
-import cv2
-import numpy as np
 
 device = torch.device('cuda')
 # assigned means and standard deviations
@@ -66,6 +67,7 @@ def process(camera_value):
     return res
 
 res = np.zeros((480, 856,3))
+
 def vision_callback(data):
     '''
     vision callback for getting data from bebop image topic.
@@ -80,9 +82,9 @@ def vision_callback(data):
 if __name__ == '__main__':
     # bebop vision detection node
     rospy.init_node('bebop_vision_segmentation')
-    # queue size 1 and large buffer size for images to avoid latency from ssd
+    # queue size 1 and large buffer size for images to avoid latency from ssd object detection.
     rospy.Subscriber('/bebop/image_raw', Image, vision_callback, queue_size=1, buff_size=2**24)
-    while(True):
+    while True:
         # Capture frame-by-frame
         # Display the resulting frame
         cv2.imshow('frame',res)
