@@ -1,4 +1,4 @@
-# Bebop-Autonomy-Vision
+# Bebop Autonomy Vision
 
 An autonomous completely vision-based Bebop drone. Our Intro to Robotics (CSCI-3302)  final project.
 
